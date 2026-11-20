@@ -1,0 +1,13 @@
+name: ml-pipeline
+on: [push]
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install dvc mlflow scikit-learn pandas pyyaml joblib
+      - run: python src/make_data.py
+      - run: dvc repro
+      - run: cat metrics.json

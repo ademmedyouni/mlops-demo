@@ -25,7 +25,11 @@ with mlflow.start_run():
 
     mlflow.log_params(params)
     mlflow.log_metrics(metrics)
-    mlflow.sklearn.log_model(model, "model")
+    mlflow.sklearn.log_model(
+    model,
+    name="model",
+    skops_trusted_types=["sklearn.tree._tree.Tree"],
+)
 
 joblib.dump(model, "models/model.joblib")
 json.dump(metrics, open("metrics.json", "w"), indent=2)
