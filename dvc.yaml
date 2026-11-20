@@ -1,0 +1,22 @@
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+      - src/prepare.py
+      - data/raw/wine.csv
+    params:
+      - split
+    outs:
+      - data/processed
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed
+    params:
+      - train
+    outs:
+      - models/model.joblib
+    metrics:
+      - metrics.json:
+          cache: false
