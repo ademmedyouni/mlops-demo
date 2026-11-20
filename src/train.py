@@ -1,4 +1,6 @@
 import json
+import os
+
 import joblib
 import mlflow
 import mlflow.sklearn
@@ -26,11 +28,12 @@ with mlflow.start_run():
     mlflow.log_params(params)
     mlflow.log_metrics(metrics)
     mlflow.sklearn.log_model(
-    model,
-    name="model",
-    skops_trusted_types=["sklearn.tree._tree.Tree"],
-)
+        model,
+        name="model",
+        skops_trusted_types=["sklearn.tree._tree.Tree"],
+    )
 
+os.makedirs("models", exist_ok=True)
 joblib.dump(model, "models/model.joblib")
 json.dump(metrics, open("metrics.json", "w"), indent=2)
 print(metrics)
